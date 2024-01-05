@@ -1,0 +1,18 @@
+Package: pepbp
+Title: Modelling the Effect of Post-Exposure Prophylaxis on Outbreak Control
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Sophie", "Meakin", 
+           email = "sophie.meakin@epicentre.msf.org", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6385-2652")),
+    person("Joel", "Hellewell",
+           email = "joel@ebi.ac.uk",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0003-2683-0849"))
+           )
+Description: A package to model the effect of post-exposure prophylaxis for high-risk contacts on outbreak transmission and control using a multi-type branching process model.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
