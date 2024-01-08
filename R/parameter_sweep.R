@@ -47,7 +47,7 @@ parameter_sweep <- function(
         lrc_disp = .$lrc_disp,
         p_hrc_case = .$p_hrc_case,
         p_lrc_case = .$p_lrc_case,
-        n_initialcases = .$n_initialcases)[[1]],
+        n_initialcases = .$n_initialcases),
       .progress = show_progress,
       .options = furrr::furrr_options(scheduling = 20)
     )) %>%
