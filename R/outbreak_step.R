@@ -1,5 +1,11 @@
 #' Move branching process forward by one generation
-#' @author Joel Hellewell, Sophie Meakin
+#' @author Sophie Meakin, Joel Hellewell
+#' 
+#' @description Move branching process model forward from generation `g` to generation `g+1`.
+#' @details Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
+#' A fixed proportion `prop_pep` of high-risk contacts receive PEP.
+#' High-risk contacts who do not receive PEP become cases with probability `p_hrc_case`; high-risk contacts who receive PEP become cases with lower probability `p_hrc_case*perc_risk`.
+#' Low-risk contacts do not receive PEP, and become cases with probability `p_lrc_case`.
 #' 
 #' @param outbreak_data A data.frame of cases
 #'
@@ -14,24 +20,23 @@ outbreak_step <- function(
     p_hrc_case, p_lrc_case
   ) {
   
-  # function body; ref https://github.com/epiforecasts/ringbp/blob/main/R/outbreak_step.R
-  
+  # get current generation
   case_data_g <- case_data %>%
     dplyr::filter(generation == g)
-  
+  # calculate HRC/PEP/LRCs and new cases
   case_data_g <- case_data_g %>%
     dplyr::mutate(
       n_hrc = rnbinom(nrow(case_data_g), mu = hrc_mu, size = hrc_disp),
       n_lrc = rnbinom(nrow(case_data_g), mu = lrc_mu, size = lrc_disp),
-      n_hrc_pep = floor(n_hrc * prop_pep),
-      n_hrc = n_hrc - n_hrc_pep,
+      n_pep = floor(n_hrc * prop_pep),  # fixed proportion of HRCs receive PEP
+      n_hrc = n_hrc - n_pep,
       new_cases_hrc = rbinom(n = nrow(case_data_g), size = n_hrc, prob = p_hrc_case),
-      new_cases_pep = rbinom(n = nrow(case_data_g), size = n_hrc_pep, prob = p_hrc_case*perc_risk),
+      new_cases_pep = rbinom(n = nrow(case_data_g), size = n_pep, prob = p_hrc_case*perc_risk),
       new_cases_lrc = rbinom(n = nrow(case_data_g), size = n_lrc, prob = p_lrc_case),
       new_cases = new_cases_hrc + new_cases_pep + new_cases_lrc
     )
   
-  # case_data up to generation g
+  # updated case_data up to current generation
   if(g == 0) {
     out <- dplyr::bind_rows(
       case_data_g
@@ -43,8 +48,8 @@ outbreak_step <- function(
     ) 
   }
   
-  total_new_cases <- sum(case_data_g$new_cases)
-  if(total_new_cases > 0) {
+  # if there are any new cases, add new rows to case_data for next generation
+  if(sum(case_data_g$new_cases) > 0) {
     
     case_data_g1 <- data.frame(
       generation = g + 1,
