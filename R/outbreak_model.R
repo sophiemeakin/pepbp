@@ -37,4 +37,28 @@ outbreak_model <- function(
   
   # function body; ref https://github.com/epiforecasts/ringbp/blob/main/R/outbreak_model.R
   
+  case_data <- outbreak_setup(n_initialcases = n_initialcases)
+  gen <- 0
+  total_cases <- n_initialcases
+  
+  while(gen < cap_max_gen & total_cases < cap_max_cases & max(case_data$generation) == gen) {
+    
+    case_data <- outbreak_step(
+      case_data = case_data, g = gen,
+      hrc_mu = hrc_mu,
+      hrc_disp = hrc_disp,
+      lrc_mu = lrc_mu,
+      lrc_disp = lrc_disp,
+      prop_pep = prop_pep,
+      p_hrc_case = p_hrc_case,
+      p_lrc_case = p_lrc_case,
+      perc_risk = perc_risk
+    )
+    gen <- gen + 1
+    total_cases <- nrow(case_data)
+    
+  }
+  
+  return(case_data)
+  
 }
