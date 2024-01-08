@@ -1,5 +1,5 @@
 #' Sweep across parameters
-#' @author Sam Abbott, Sophie Meakin
+#' @author Sam Abbott, Sophie Meakin, Joel Hellewell
 #'
 #' @description Explore scenarios using gridding with sampling for parameters not in the grid. Parameters that
 #' are included in the grid are currently hard coded. Use the `future` package to control parallisation

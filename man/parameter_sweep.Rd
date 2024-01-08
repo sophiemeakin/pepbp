@@ -30,5 +30,5 @@ are included in the grid are currently hard coded. Use the \code{future} package
 outside of the function.
 }
 \author{
-Sam Abbott, Sophie Meakin
+Sam Abbott, Sophie Meakin, Joel Hellewell
 }
