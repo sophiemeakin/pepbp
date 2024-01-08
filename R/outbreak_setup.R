@@ -1,9 +1,9 @@
 #' Set up initial cases for branching process
-#' @author Joel Hellewell, Sophie Meakin
+#' @author Sophie Meakin, Joel Hellewell
 #' 
 #' @inheritParams outbreak_model
 #' 
-#' @return A data.frame of initial cases in outbreak with columns. Passed to pepbp::outbreak_step().
+#' @return A data.frame of initial cases in outbreak. Passed to pepbp::outbreak_step() inside pepbp::outbreak_model(). With columns:
 #' @export
 #' 
 outbreak_setup <- function(
@@ -22,7 +22,7 @@ outbreak_setup <- function(
     new_cases_pep = NA,
     new_cases_lrc = NA,
     n_hrc = NA,
-    n_hrc_pep = NA,
+    n_pep = NA,
     n_lrc = NA
     )
   

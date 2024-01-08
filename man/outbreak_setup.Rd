@@ -10,11 +10,11 @@ outbreak_setup(n_initialcases)
 \item{n_initialcases}{Integer number of initial cases}
 }
 \value{
-A data.frame of initial cases in outbreak with columns. Passed to pepbp::outbreak_step().
+A data.frame of initial cases in outbreak. Passed to pepbp::outbreak_step() inside pepbp::outbreak_model(). With columns:
 }
 \description{
 Set up initial cases for branching process
 }
 \author{
-Joel Hellewell, Sophie Meakin
+Sophie Meakin, Joel Hellewell
 }
