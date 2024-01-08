@@ -31,32 +31,36 @@ outbreak_step <- function(
       new_cases = new_cases_hrc + new_cases_pep + new_cases_lrc
     )
   
-  case_data_g1 <- data.frame(
-    generation = g + 1,
-    case_id = (max(case_data_g$case_id) + 1):(max(case_data_g$case_id) + sum(case_data_g$new_cases)),
-    case_type = c(
-      rep("HRC", sum(case_data_g$new_cases_hrc)),
-      rep("PEP", sum(case_data_g$new_cases_pep)),
-      rep("LRC", sum(case_data_g$new_cases_lrc))
-      ),
-    infector = NA
-  )
-  
-  # yuck
+  # case_data up to generation g
   if(g == 0) {
-    
     out <- dplyr::bind_rows(
-      case_data_g,
-      case_data_g1
+      case_data_g
     ) 
-    
   } else {
-    
     out <- dplyr::bind_rows(
       case_data %>% dplyr::filter(generation < g),
-      case_data_g,
-      case_data_g1
+      case_data_g
     ) 
+  }
+  
+  total_new_cases <- sum(case_data_g$new_cases)
+  if(total_new_cases > 0) {
+    
+    case_data_g1 <- data.frame(
+      generation = g + 1,
+      case_id = (max(case_data_g$case_id) + 1):(max(case_data_g$case_id) + sum(case_data_g$new_cases)),
+      case_type = c(
+        rep("HRC", sum(case_data_g$new_cases_hrc)),
+        rep("PEP", sum(case_data_g$new_cases_pep)),
+        rep("LRC", sum(case_data_g$new_cases_lrc))
+      ),
+      infector = NA
+    )
+    
+    out <- dplyr::bind_rows(
+      out,
+      case_data_g1
+    )
     
   }
   
