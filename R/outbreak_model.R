@@ -1,5 +1,11 @@
-#' Run a single instance of the branching process model.
+#' Run PEP branching process model
 #' @author Sophie Meakin, Joel Hellewell
+#' 
+#' @description Run a single instance of the branching process model for post-exposure prophylaxis for high-risk contacts. See Details for a full description of branching process model.
+#' @details Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
+#' A fixed proportion `prop_pep` of high-risk contacts receive PEP.
+#' High-risk contacts who do not receive PEP become cases with probability `p_hrc_case`; high-risk contacts who receive PEP become cases with lower probability `p_hrc_case*perc_risk`.
+#' Low-risk contacts do not receive PEP, and become cases with probability `p_lrc_case`.
 #' 
 #' @param prop_pep Proportion of high-risk contacts that receive PEP
 #' @param perc_risk Percentage reduction in risk of becoming a case after receiving PEP

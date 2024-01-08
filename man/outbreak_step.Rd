@@ -18,19 +18,13 @@ outbreak_step(
 )
 }
 \arguments{
-\item{outbreak_data}{A data.frame of cases}
+\item{outbreak_data}{A data.frame of cases up to generation \code{g+1}.}
 }
 \value{
 A data.frame updated with one new generation of cases.
 }
 \description{
 Move branching process model forward from generation \code{g} to generation \code{g+1}.
-}
-\details{
-Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
-A fixed proportion \code{prop_pep} of high-risk contacts receive PEP.
-High-risk contacts who do not receive PEP become cases with probability \code{p_hrc_case}; high-risk contacts who receive PEP become cases with lower probability \code{p_hrc_case*perc_risk}.
-Low-risk contacts do not receive PEP, and become cases with probability \code{p_lrc_case}.
 }
 \author{
 Sophie Meakin, Joel Hellewell

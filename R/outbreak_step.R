@@ -2,12 +2,8 @@
 #' @author Sophie Meakin, Joel Hellewell
 #' 
 #' @description Move branching process model forward from generation `g` to generation `g+1`.
-#' @details Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
-#' A fixed proportion `prop_pep` of high-risk contacts receive PEP.
-#' High-risk contacts who do not receive PEP become cases with probability `p_hrc_case`; high-risk contacts who receive PEP become cases with lower probability `p_hrc_case*perc_risk`.
-#' Low-risk contacts do not receive PEP, and become cases with probability `p_lrc_case`.
 #' 
-#' @param outbreak_data A data.frame of cases
+#' @param outbreak_data A data.frame of cases up to generation `g+1`.
 #'
 #' @return A data.frame updated with one new generation of cases.
 #' @export

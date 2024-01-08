@@ -2,7 +2,7 @@
 % Please edit documentation in R/outbreak_model.R
 \name{outbreak_model}
 \alias{outbreak_model}
-\title{Run a single instance of the branching process model.}
+\title{Run PEP branching process model}
 \usage{
 outbreak_model(
   prop_pep,
@@ -58,7 +58,13 @@ A data.frame of cases by generation, with columns:
 }
 }
 \description{
-Run a single instance of the branching process model.
+Run a single instance of the branching process model for post-exposure prophylaxis for high-risk contacts. See Details for a full description of branching process model.
+}
+\details{
+Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
+A fixed proportion \code{prop_pep} of high-risk contacts receive PEP.
+High-risk contacts who do not receive PEP become cases with probability \code{p_hrc_case}; high-risk contacts who receive PEP become cases with lower probability \code{p_hrc_case*perc_risk}.
+Low-risk contacts do not receive PEP, and become cases with probability \code{p_lrc_case}.
 }
 \author{
 Sophie Meakin, Joel Hellewell
