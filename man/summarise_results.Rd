@@ -2,13 +2,26 @@
 % Please edit documentation in R/evaluation.R
 \name{summarise_results}
 \alias{summarise_results}
-\title{Title}
+\title{Summarise results from parameter sweep}
 \usage{
 summarise_results(sweep_df)
 }
 \arguments{
-\item{sweep_df}{}
+\item{sweep_df}{A data.frame, output from pepbp::parameter_sweep().}
+}
+\value{
+A data.frame with columns:
+\itemize{
+\item scenario: scenario id
+\item iter: iteration id
+\item outbreak_size: total cases
+\item n_pep: total number of HRCs that received PEP
+\item r0: average number of secondary cases
+}
 }
 \description{
-Title
+Summarise results from parameter_sweep by scenario and iteration.
+}
+\author{
+Joel Hellewell, Sophie Meakin
 }
