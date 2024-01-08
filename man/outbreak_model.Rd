@@ -47,17 +47,19 @@ A data.frame of cases by generation, with columns:
 \item generation
 \item case_id
 \item case_type: one of "PEP", "HRC" (no PEP), "LRC".
-\item infector: case_id of infector
+\item infector: case_id of infector (currently not used)
 \item new_cases: total new cases
 \item new_cases_hrc: new cases that were high-risk contacts
 \item new_cases_pep: new cases that were high-risk contacts that received PEP
 \item new_cases_lrc: new cases that were low-risk contacts
-\item n_hrc_pep: number of high-risk contacts that received PEP
+\item n_hrc: number of high-risk contacts that did not receive PEP
+\item n_pep: number of high-risk contacts that received PEP
+\item n_lrc: number of low-risk contacts
 }
 }
 \description{
 Run a single instance of the branching process model.
 }
 \author{
-Joel Hellewell, Sophie Meakin
+Sophie Meakin, Joel Hellewell
 }

@@ -1,5 +1,5 @@
 #' Run a single instance of the branching process model.
-#' @author Joel Hellewell, Sophie Meakin
+#' @author Sophie Meakin, Joel Hellewell
 #' 
 #' @param prop_pep Proportion of high-risk contacts that receive PEP
 #' @param perc_risk Percentage reduction in risk of becoming a case after receiving PEP
@@ -17,12 +17,14 @@
 #' * generation
 #' * case_id
 #' * case_type: one of "PEP", "HRC" (no PEP), "LRC".
-#' * infector: case_id of infector
+#' * infector: case_id of infector (currently not used)
 #' * new_cases: total new cases
 #' * new_cases_hrc: new cases that were high-risk contacts
 #' * new_cases_pep: new cases that were high-risk contacts that received PEP
 #' * new_cases_lrc: new cases that were low-risk contacts
-#' * n_hrc_pep: number of high-risk contacts that received PEP
+#' * n_hrc: number of high-risk contacts that did not receive PEP
+#' * n_pep: number of high-risk contacts that received PEP
+#' * n_lrc: number of low-risk contacts
 #' @export
 #' 
 outbreak_model <- function(
@@ -35,12 +37,12 @@ outbreak_model <- function(
     cap_max_gen, cap_max_cases
 ) {
   
-  # function body; ref https://github.com/epiforecasts/ringbp/blob/main/R/outbreak_model.R
-  
+  # initialise outbreak
   case_data <- outbreak_setup(n_initialcases = n_initialcases)
   gen <- 0
   total_cases <- n_initialcases
   
+  # update outbreak until max generations/cases exceeded, or outbreak extinct
   while(gen < cap_max_gen & total_cases < cap_max_cases & max(case_data$generation) == gen) {
     
     case_data <- outbreak_step(
