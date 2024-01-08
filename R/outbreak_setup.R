@@ -10,8 +10,6 @@ outbreak_setup <- function(
     n_initialcases
 ) {
   
-  # function body; ref https://github.com/epiforecasts/ringbp/blob/main/R/outbreak_setup.R
-  
   case_data <- data.frame(
     generation = 0,
     case_id = 1:n_initialcases,
