@@ -3,7 +3,8 @@
 #' 
 #' @inheritParams outbreak_model
 #' 
-#' @return A data.frame of initial cases in outbreak. Passed to pepbp::outbreak_step() inside pepbp::outbreak_model(). With columns:
+#' @return A data.frame of initial cases in outbreak; to pass to pepbp::outbreak_step().
+
 #' @export
 #' 
 outbreak_setup <- function(
