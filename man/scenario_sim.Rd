@@ -45,7 +45,7 @@ scenario_sim(
 \item{nsim}{Number of simulations to run}
 }
 \value{
-A data.frame containing the results for multiple simulations, with columns xxx.
+A data.frame containing the results for multiple simulations.
 }
 \description{
 Run a specified number of simulations with identical parameters.

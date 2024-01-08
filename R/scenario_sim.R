@@ -4,7 +4,7 @@
 #' @param nsim Number of simulations to run
 #' @inheritParams outbreak_model
 #' 
-#' @return A data.frame containing the results for multiple simulations, with columns xxx.
+#' @return A data.frame containing the results for multiple simulations.
 #' @export
 #' 
 scenario_sim <- function(
