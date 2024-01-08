@@ -1,43 +1,21 @@
-#' Calculate R0 from single scenario simulation
-#' @author Sophie Meakin
-#' 
-#' @param df A data.frame of a single simulation
-#' 
-#' @return Numeric distribution of number of secondary cases in simulation.
-#' @export
-#' 
-calculate_r0 <- function(
-    df
-) {
-  
-}
-
-
-#' Calculate outbreak duration from a single scenario simulation
-#' @author Sophie Meakin
+#' Title
 #'
-#' @inheritParams calculate_r0
-#' 
-#' @return The integer number of generations until the outbreak went extinct.
+#' @param sweep_df 
+#'
+#' @return
 #' @export
-#' 
-calculate_duration <- function(
-    df
-) {
-  
-}
-
-
-#' Count number of individuals who received PEP
-#' @author Sophie Meakin
-#' 
-#' @inheritParams calculate_r0
-#' 
-#' @return The integer number of individuals who received PEP.
+#'
+#' @examples
 #' @export
-#' 
-calculate_pep <- function(
-    df
-) {
+summarise_results <- function(sweep_df) {
   
+  big_results <- rbindlist(sweep_df$sims, idcol = "scenario")
+  
+  big_results <- big_results %>% 
+    group_by(scenario, iter) %>%
+    summarise(r0 = mean(new_cases, na.rm = TRUE),
+              n_pep = sum(n_hrc_pep, na.rm = TRUE),
+              outbreak_size = n())
+  
+  big_results
 }

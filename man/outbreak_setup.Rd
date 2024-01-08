@@ -4,7 +4,10 @@
 \alias{outbreak_setup}
 \title{Set up initial cases for branching process}
 \usage{
-outbreak_setup(n_intialcases)
+outbreak_setup(n_initialcases)
+}
+\arguments{
+\item{n_initialcases}{Integer number of initial cases}
 }
 \value{
 A data.frame of initial cases in outbreak with columns. Passed to pepbp::outbreak_step().

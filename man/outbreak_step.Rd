@@ -5,11 +5,14 @@
 \title{Move branching process forward by one generation}
 \usage{
 outbreak_step(
-  outbreak_data,
+  case_data,
+  g,
   hrc_mu,
   hrc_disp,
   lrc_mu,
   lrc_disp,
+  prop_pep,
+  perc_risk,
   p_hrc_case,
   p_lrc_case
 )
