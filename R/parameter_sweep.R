@@ -53,8 +53,11 @@ parameter_sweep <- function(
     )) %>%
     tidyr::unnest(cols = "data")
   
-  scenario_sims$sims <- lapply(scenario_sims$sims,
-                               FUN = function(x){x$result})
+  # drop error messages
+  scenario_sims$sims <- lapply(scenario_sims$sims, FUN = function(x){x$result})
+  
+  # name sims with scenario
+  names(scenario_sims$sims) <- scenario_sims$scenario
   
   return(scenario_sims)
 }
