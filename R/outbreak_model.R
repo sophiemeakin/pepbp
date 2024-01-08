@@ -13,7 +13,16 @@
 #' @param cap_max_gen Stop the simulation when this many generations is reached
 #' @param cap_max_cases Stop the simulation when this many cases is reached
 #' 
-#' @return A data.frame of high- and low-risk contacts and cases by generation.
+#' @return A data.frame of cases by generation, with columns:
+#' * generation
+#' * case_id
+#' * case_type: one of "PEP", "HRC" (no PEP), "LRC".
+#' * infector: case_id of infector
+#' * new_cases: total new cases
+#' * new_cases_hrc: new cases that were high-risk contacts
+#' * new_cases_pep: new cases that were high-risk contacts that received PEP
+#' * new_cases_lrc: new cases that were low-risk contacts
+#' * n_hrc_pep: number of high-risk contacts that received PEP
 #' @export
 #' 
 outbreak_model <- function(
