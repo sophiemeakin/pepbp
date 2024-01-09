@@ -4,18 +4,16 @@
 \alias{plot_r0}
 \title{Visualise change in R0}
 \usage{
-plot_r0(sweep_summary, p)
+plot_r0(sweep_summary)
 }
 \arguments{
 \item{sweep_summary}{Output from summarise_results().}
-
-\item{p}{Proportion of HRCs that receive PEP.}
 }
 \value{
 A ggplot object.
 }
 \description{
-Visualise relative of risk of becoming a case versus average number of secondary cases for a \% of HRCs that receive PEP (\code{p}).
+Visualise relative of risk of becoming a case versus average number of secondary cases.
 }
 \author{
 Sophie Meakin
