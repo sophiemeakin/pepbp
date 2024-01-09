@@ -24,7 +24,8 @@ outbreak_step <- function(
     dplyr::mutate(
       n_hrc = rnbinom(nrow(case_data_g), mu = hrc_mu, size = hrc_disp),
       n_lrc = rnbinom(nrow(case_data_g), mu = lrc_mu, size = lrc_disp),
-      n_pep = floor(n_hrc * prop_pep),  # fixed proportion of HRCs receive PEP
+      # n_pep = floor(n_hrc * prop_pep),  # fixed proportion of HRCs receive PEP
+      n_pep = rbinom(nrow(case_data_g), size = n_hrc, prob = prop_pep),  # binomial sample prop_pep%
       n_hrc = n_hrc - n_pep,
       new_cases_hrc = rbinom(n = nrow(case_data_g), size = n_hrc, prob = p_hrc_case),
       new_cases_pep = rbinom(n = nrow(case_data_g), size = n_pep, prob = p_hrc_case*perc_risk),
