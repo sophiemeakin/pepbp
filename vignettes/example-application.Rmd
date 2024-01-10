@@ -1,0 +1,125 @@
+---
+title: "Example application"
+author: "Sophie Meakin"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example application}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE, message = FALSE,
+  out.width = "100%", fig.width = 14, fig.height = 9,
+  comment = "#>"
+)
+devtools::load_all()  # library(pepbp)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(ggplot2)
+```
+
+# Run model
+
+First, define a grid of scenarios:
+
+-   Number of initial cases = 5;
+-   Proportion of high-risk contacts that receive PEP = {0.2, 0.6, 1};
+-   Effectiveness of PEP (relative risk of becoming a case) = {0, 0.1, 0.2, ..., 0.9, 1}:
+
+```{r}
+scenario_grid <- expand_grid(
+  # Varying parameters
+  n_initialcases = c(5),
+  prop_pep = seq(0.2, 1, 0.4),
+  rel_risk = seq(0, 1, 0.1),
+  # Fixed parameters
+  hrc_mu = 2,
+  hrc_disp = 1,
+  lrc_mu = 5,
+  lrc_disp = 10,
+  p_hrc_case = 0.75,
+  p_lrc_case = 0.1
+) %>%
+  mutate(scenario = 1:n()) %>%
+  select(scenario, everything())
+```
+
+Now run the 100 iterations of the branching process model for each scenario, and summarise the results:
+
+```{r}
+res <- parameter_sweep(
+  scenarios = scenario_grid,
+  n_sim = 100,
+  sim_fn = partial(scenario_sim, cap_max_gen = 5, cap_max_cases = 2500)
+)
+
+res_summary <- summarise_results(res) %>%
+  group_by(scenario) %>%
+  mutate(big50 = sum(outbreak_size > 50)/n()) %>%
+  right_join(scenario_grid, by = "scenario") %>%
+  ungroup()
+```
+
+# Results
+
+### Effect of PEP on preventing large outbreaks
+
+```{r}
+res_summary %>%
+  filter(prop_pep > 0) %>%
+  select(scenario, prop_pep, rel_risk, big50) %>%
+  distinct() %>%
+  ggplot(aes(x = rel_risk, y = big50, col = as.factor(prop_pep))) +
+  geom_point(size = 3) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_color_brewer(palette = "Reds") +
+  labs(
+    x = "Relative risk of HRCs becoming a case (PEP vs. no PEP)", y = "Proportion of outbreaks with at least 50 cases",
+    col = "Probability of receiving PEP"
+  ) +
+  theme_bw() +
+  theme(text = element_text(size = 14), legend.position = "top")
+```
+
+### Effect of PEP on R0 in large outbreaks
+
+```{r}
+plot_r0(res_summary[which(res_summary$outbreak_size > 50),])
+```
+
+### Number of PEP doses required
+
+```{r}
+res_summary %>%
+  filter(prop_pep > 0) %>%
+  group_by(scenario, n_initialcases, prop_pep, rel_risk) %>%
+  summarise(
+    npep_mean = mean(n_pep),
+    npep_median = median(n_pep),
+    npep_q025 = quantile(n_pep, 0.025),
+    npep_q25 = quantile(n_pep, 0.25),
+    npep_q75 = quantile(n_pep, 0.75),
+    npep_q975 = quantile(n_pep, 0.975),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = rel_risk, col = as.factor(prop_pep))) +
+  geom_ribbon(aes(ymin = npep_q25, ymax = npep_q75, fill = as.factor(prop_pep)), col = NA, alpha = 0.4) +
+  geom_point(aes(y = npep_mean), size = 3) +
+  geom_line(aes(y = npep_mean)) +
+  scale_x_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  scale_color_brewer(palette = "Reds") +
+  scale_fill_brewer(palette = "Reds") +
+  labs(
+    x = "Relative risk of becoming a case", y = "Number of PEP doses",
+    col = "Probability of receiving PEP", fill = "Probability of receiving PEP"
+  ) +
+  theme_bw() +
+  theme(text = element_text(size = 14), legend.position = "top")
+```
