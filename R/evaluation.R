@@ -23,8 +23,10 @@ summarise_results <- function(sweep_df) {
     dplyr::group_by(scenario, iter) %>%
     dplyr::summarise(
       outbreak_size = dplyr::n(),
+      max_gen = max(generation),
       n_pep = sum(n_pep, na.rm = TRUE),
       r0 = mean(new_cases, na.rm = TRUE),
+      .groups = "drop"
       )
   
   return(out)
