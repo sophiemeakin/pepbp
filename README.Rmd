@@ -21,6 +21,10 @@ library(ggplot2)
 
 # *pepbp*: Modelling the effect of post-exposure prophylaxis for high-risk contacts on outbreak transmission and control
 
+***pepbp*** is a package to simulate a branching process model describing an infectious disease outbreak where high-risk contacts of cases receive post-exposure prophylaxis, which reduces their probability of becoming a case.
+
+See [Methods](https://github.com/sophiemeakin/pepbp?tab=readme-ov-file#methods) for a full description of the branching process model. An installation and quick-start guide for the package is below.
+
 ## Installation
 
 You can install the package from Github:
@@ -70,12 +74,11 @@ res %>%
 
 See `vignettes/example-application.Rmd` for an application of this model to explore the effect of post-exposure prophylaxis for high-risk contacts on transmission and control of an infectious disease outbreak.
 
-
-## Branching process model
+## Methods
 
 ### Input
 
-The model has five inputs:
+The branching process model has five inputs:
 
 -   The initial number of cases, `n`.
 -   The distribution of the number of high- and low-risk contacts per case.
