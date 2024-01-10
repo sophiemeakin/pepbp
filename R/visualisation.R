@@ -44,7 +44,7 @@ plot_r0 <- function(sweep_summary) {
       col = "Probability of receiving PEP"
       ) +
     theme_bw() +
-    theme(legend.position = "top") 
+    theme(text = element_text(size = 14), legend.position = "top")
   
   return(out)
   
