@@ -7,7 +7,7 @@
 scenario_sim(
   n_sim,
   prop_pep,
-  perc_risk,
+  rel_risk,
   hrc_mu,
   hrc_disp,
   lrc_mu,
@@ -22,7 +22,7 @@ scenario_sim(
 \arguments{
 \item{prop_pep}{Proportion of high-risk contacts that receive PEP}
 
-\item{perc_risk}{Percentage reduction in risk of becoming a case after receiving PEP}
+\item{rel_risk}{Relative risk of a high-risk contact becoming a case after receiving PEP}
 
 \item{hrc_mu}{Average number of high-risk contacts}
 

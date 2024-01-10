@@ -40,7 +40,7 @@ parameter_sweep <- function(
       ~ safe_sim_fn(
         n_sim = n_sim,
         prop_pep = .$prop_pep,
-        perc_risk = .$perc_risk,
+        rel_risk = .$rel_risk,
         hrc_mu = .$hrc_mu,
         hrc_disp = .$hrc_disp,
         lrc_mu = .$lrc_mu,

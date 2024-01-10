@@ -6,7 +6,7 @@
 \usage{
 outbreak_model(
   prop_pep,
-  perc_risk,
+  rel_risk,
   hrc_mu,
   hrc_disp,
   lrc_mu,
@@ -21,7 +21,7 @@ outbreak_model(
 \arguments{
 \item{prop_pep}{Proportion of high-risk contacts that receive PEP}
 
-\item{perc_risk}{Percentage reduction in risk of becoming a case after receiving PEP}
+\item{rel_risk}{Relative risk of a high-risk contact becoming a case after receiving PEP}
 
 \item{hrc_mu}{Average number of high-risk contacts}
 
@@ -63,7 +63,7 @@ Run a single instance of the branching process model for post-exposure prophylax
 \details{
 The outbreak begins with a given number of initial cases. Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
 A fixed proportion \code{prop_pep} of high-risk contacts receive PEP.
-High-risk contacts who do not receive PEP become cases with probability \code{p_hrc_case}; high-risk contacts who receive PEP become cases with lower probability \code{p_hrc_case*perc_risk}.
+High-risk contacts who do not receive PEP become cases with probability \code{p_hrc_case}; high-risk contacts who receive PEP become cases with lower probability \code{p_hrc_case*rel_risk}.
 Low-risk contacts do not receive PEP, and become cases with probability \code{p_lrc_case}.
 }
 \author{

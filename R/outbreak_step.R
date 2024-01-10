@@ -4,6 +4,7 @@
 #' @description Move branching process model forward from generation `g` to generation `g+1`.
 #' 
 #' @param outbreak_data A data.frame of cases up to generation `g+1`.
+#' @inheritParams outbreak_model
 #'
 #' @return A data.frame updated with one new generation of cases.
 #' @export
@@ -12,7 +13,7 @@ outbreak_step <- function(
     case_data, g,
     hrc_mu, hrc_disp,
     lrc_mu, lrc_disp,
-    prop_pep, perc_risk,
+    prop_pep, rel_risk,
     p_hrc_case, p_lrc_case
   ) {
   
@@ -28,7 +29,7 @@ outbreak_step <- function(
       n_pep = rbinom(nrow(case_data_g), size = n_hrc, prob = prop_pep),  # binomial sample prop_pep%
       n_hrc = n_hrc - n_pep,
       new_cases_hrc = rbinom(n = nrow(case_data_g), size = n_hrc, prob = p_hrc_case),
-      new_cases_pep = rbinom(n = nrow(case_data_g), size = n_pep, prob = p_hrc_case*perc_risk),
+      new_cases_pep = rbinom(n = nrow(case_data_g), size = n_pep, prob = p_hrc_case*rel_risk),
       new_cases_lrc = rbinom(n = nrow(case_data_g), size = n_lrc, prob = p_lrc_case),
       new_cases = new_cases_hrc + new_cases_pep + new_cases_lrc
     )

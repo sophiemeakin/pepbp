@@ -22,7 +22,7 @@ plot_r0 <- function(sweep_summary) {
   
   out <- sweep_summary %>%
     dplyr::filter(prop_pep > 0) %>%
-    dplyr::group_by(scenario, n_initialcases, prop_pep, perc_risk) %>%
+    dplyr::group_by(scenario, n_initialcases, prop_pep, rel_risk) %>%
     dplyr::summarise(
       r0_mean = mean(r0),
       r0_median = median(r0),
@@ -31,7 +31,7 @@ plot_r0 <- function(sweep_summary) {
       r0_q75 = quantile(r0, 0.75),
       r0_q975 = quantile(r0, 0.975)
     ) %>%
-    ggplot(aes(x = perc_risk, col = as.factor(prop_pep))) +
+    ggplot(aes(x = rel_risk, col = as.factor(prop_pep))) +
     geom_hline(yintercept = 1, lty = 2, col = "lightgrey") +
     geom_line(aes(y = r0_mean)) +
     geom_point(aes(y = r0_mean), size = 3) +

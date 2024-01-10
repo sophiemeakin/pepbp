@@ -10,7 +10,7 @@
 scenario_sim <- function(
     n_sim,
     prop_pep,
-    perc_risk,
+    rel_risk,
     hrc_mu, hrc_disp,
     lrc_mu, lrc_disp,
     p_hrc_case, p_lrc_case,
@@ -32,7 +32,7 @@ scenario_sim <- function(
         prop_pep = prop_pep,
         p_hrc_case = p_hrc_case,
         p_lrc_case = p_lrc_case,
-        perc_risk = perc_risk,
+        rel_risk = rel_risk,
         n_initialcases = n_initialcases,
         cap_max_gen = cap_max_gen, cap_max_cases = cap_max_cases
       ) %>%

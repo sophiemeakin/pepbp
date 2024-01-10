@@ -4,11 +4,11 @@
 #' @description Run a single instance of the branching process model for post-exposure prophylaxis for high-risk contacts. See Details for a full description of branching process model.
 #' @details The outbreak begins with a given number of initial cases. Each case has some number of high- and low-risk contacts, each defined by a negative binomial distribution.
 #' A fixed proportion `prop_pep` of high-risk contacts receive PEP.
-#' High-risk contacts who do not receive PEP become cases with probability `p_hrc_case`; high-risk contacts who receive PEP become cases with lower probability `p_hrc_case*perc_risk`.
+#' High-risk contacts who do not receive PEP become cases with probability `p_hrc_case`; high-risk contacts who receive PEP become cases with lower probability `p_hrc_case*rel_risk`.
 #' Low-risk contacts do not receive PEP, and become cases with probability `p_lrc_case`.
 #' 
 #' @param prop_pep Proportion of high-risk contacts that receive PEP
-#' @param perc_risk Percentage reduction in risk of becoming a case after receiving PEP
+#' @param rel_risk Relative risk of a high-risk contact becoming a case after receiving PEP
 #' @param hrc_mu Average number of high-risk contacts
 #' @param hrc_disp Dispersion parameter for number of high-risk contacts
 #' @param lrc_mu Average number of low-risk contacts
@@ -35,7 +35,7 @@
 #' 
 outbreak_model <- function(
     prop_pep,
-    perc_risk,
+    rel_risk,
     hrc_mu, hrc_disp,
     lrc_mu, lrc_disp,
     p_hrc_case, p_lrc_case,
@@ -60,7 +60,7 @@ outbreak_model <- function(
       prop_pep = prop_pep,
       p_hrc_case = p_hrc_case,
       p_lrc_case = p_lrc_case,
-      perc_risk = perc_risk
+      rel_risk = rel_risk
     )
     gen <- gen + 1
     total_cases <- nrow(case_data)
