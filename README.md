@@ -58,7 +58,7 @@ res %>%
   theme(text = element_text(size = 14))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](man/figures/README-unnamed-chunk-3-1.png)
 
 See `vignettes/example-application.Rmd` for an application of this model
 to explore the effect of post-exposure prophylaxis for high-risk

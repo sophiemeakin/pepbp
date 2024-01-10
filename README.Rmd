@@ -11,7 +11,8 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  echo = TRUE
+  echo = TRUE,
+  fig.path = "man/figures/README-"
 )
 devtools::load_all()
 library(dplyr)
