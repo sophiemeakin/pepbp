@@ -1,5 +1,5 @@
 ---
-title: "Example application"
+title: "Example application: the effect of post-exposure prophylaxis for high-risk contacts on outbreak control"
 author: "Sophie Meakin"
 output: rmarkdown::html_vignette
 vignette: >
@@ -22,21 +22,24 @@ library(purrr)
 library(ggplot2)
 ```
 
-# Run model
+In this example we use *pepbp* to quantify the impact of PEP on outbreak control. Specifically, we consider how the probability of receiving PEP and the effectiveness of PEP affect the size of outbreaks, the average number of secondary cases (R0), and the number of PEP doses required.
 
-First, define a grid of scenarios:
+## Model
 
--   Number of initial cases = 5;
--   Proportion of high-risk contacts that receive PEP = {0.2, 0.6, 1};
--   Effectiveness of PEP (relative risk of becoming a case) = {0, 0.1, 0.2, ..., 0.9, 1}:
+First, we define a grid of scenarios for the parameters of interest:
+
+-   Probability that a high-risk contact receives PEP = {0.2, 0.6, 1};
+-   Effectiveness of PEP (relative risk of becoming a case) = {0, 0.1, 0.2, ..., 0.9, 1}.
+
+All other parameters are fixed. The mean number of high-risk contacts is 2 and the probability that each high-risk contact becomes a case (without PEP) is 0.75. The mean number of low-risk contacts is 5 and the probability that each low-risk contact becomes a case is 0.1.
 
 ```{r}
 scenario_grid <- expand_grid(
   # Varying parameters
-  n_initialcases = c(5),
   prop_pep = seq(0.2, 1, 0.4),
   rel_risk = seq(0, 1, 0.1),
   # Fixed parameters
+  n_initialcases = 5,
   hrc_mu = 2,
   hrc_disp = 1,
   lrc_mu = 5,
@@ -64,7 +67,7 @@ res_summary <- summarise_results(res) %>%
   ungroup()
 ```
 
-# Results
+## Results
 
 ### Effect of PEP on preventing large outbreaks
 
@@ -84,7 +87,7 @@ res_summary %>%
     col = "Probability of receiving PEP"
   ) +
   theme_bw() +
-  theme(text = element_text(size = 14), legend.position = "top")
+  theme(text = element_text(size = 16), legend.position = "top")
 ```
 
 ### Effect of PEP on R0 in large outbreaks
@@ -121,5 +124,5 @@ res_summary %>%
     col = "Probability of receiving PEP", fill = "Probability of receiving PEP"
   ) +
   theme_bw() +
-  theme(text = element_text(size = 14), legend.position = "top")
+  theme(text = element_text(size = 16), legend.position = "top")
 ```
