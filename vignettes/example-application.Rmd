@@ -1,5 +1,5 @@
 ---
-title: "Example application: the effect of post-exposure prophylaxis for high-risk contacts on outbreak control"
+title: "Example application"
 author: "Sophie Meakin"
 output: rmarkdown::html_vignette
 vignette: >
@@ -22,7 +22,7 @@ library(purrr)
 library(ggplot2)
 ```
 
-In this example we use *pepbp* to quantify the impact of PEP on outbreak control. Specifically, we consider how the probability of receiving PEP and the effectiveness of PEP affect the size of outbreaks, the average number of secondary cases (R0), and the number of PEP doses required.
+In this example we use *pepbp* to quantify the impact of post-exposure prophylaxis (PEP) for high-risk contacts on outbreak control. Specifically, we consider how the probability of receiving PEP and the effectiveness of PEP affect the size of outbreaks, the average number of secondary cases (R0), and the number of PEP doses required.
 
 ## Model
 
