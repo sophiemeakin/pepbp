@@ -13,6 +13,7 @@ Authors@R: c(
            )
 Description: A package to simulate an infectious disease outbreak where high-risk contacts of cases receive post-exposure prophylaxis.
 License: MIT
+URL: https://github.com/sophiemeakin/pepbp
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
