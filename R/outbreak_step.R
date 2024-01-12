@@ -56,7 +56,11 @@ outbreak_step <- function(
         rep("PEP", sum(case_data_g$new_cases_pep)),
         rep("LRC", sum(case_data_g$new_cases_lrc))
       ),
-      infector = NA
+      infector = c(
+        rep(case_data_g$case_id, case_data_g$new_cases_hrc),
+        rep(case_data_g$case_id, case_data_g$new_cases_pep),
+        rep(case_data_g$case_id, case_data_g$new_cases_lrc)
+      )
     )
     
     out <- dplyr::bind_rows(
