@@ -93,7 +93,26 @@ res_summary %>%
 ### Effect of PEP on R0 in large outbreaks
 
 ```{r}
-plot_r0(res_summary[which(res_summary$outbreak_size > 50),])
+res_summary[which(res_summary$outbreak_size > 50),] %>%
+  filter(prop_pep > 0) %>%
+  group_by(scenario, n_initialcases, prop_pep, rel_risk) %>%
+  summarise(
+    r0_mean = mean(r0),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = rel_risk, col = as.factor(prop_pep))) +
+  geom_hline(yintercept = 1, lty = 2, col = "lightgrey") +
+  geom_line(aes(y = r0_mean)) +
+  geom_point(aes(y = r0_mean), size = 3) +
+  scale_x_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(breaks = seq(0, 5, 0.2)) +
+  scale_color_brewer(palette = "Reds") +
+  labs(
+    x = "Relative risk of HRCs becoming a case (PEP vs. no PEP)", y = "Average number of secondary cases (R0)",
+    col = "Probability of receiving PEP"
+  ) +
+  theme_bw() +
+  theme(text = element_text(size = 16), legend.position = "top")
 ```
 
 ### Number of PEP doses required
