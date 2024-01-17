@@ -21,3 +21,8 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports: 
+    dplyr,
+    furrr,
+    purrr,
+    tidyr
