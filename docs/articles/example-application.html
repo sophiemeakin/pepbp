@@ -127,7 +127,10 @@ scenario, and summarise the results:</p>
 <span></span>
 <span><span class="va">res_summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise_results.html">summarise_results</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">scenario</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>big50 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">outbreak_size</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span><span class="op">/</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    big50 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">outbreak_size</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span><span class="op">/</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    extinct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">max_gen</span> <span class="op">&lt;</span> <span class="fl">5</span><span class="op">)</span><span class="op">/</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">right_join</span><span class="op">(</span><span class="va">scenario_grid</span>, by <span class="op">=</span> <span class="st">"scenario"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -135,21 +138,20 @@ scenario, and summarise the results:</p>
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
 <div class="section level3">
-<h3 id="effect-of-pep-on-preventing-large-outbreaks">Effect of PEP on preventing large outbreaks<a class="anchor" aria-label="anchor" href="#effect-of-pep-on-preventing-large-outbreaks"></a>
+<h3 id="effect-of-pep-on-extinction">Effect of PEP on extinction<a class="anchor" aria-label="anchor" href="#effect-of-pep-on-extinction"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_summary</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">prop_pep</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">scenario</span>, <span class="va">prop_pep</span>, <span class="va">rel_risk</span>, <span class="va">big50</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">scenario</span>, <span class="va">prop_pep</span>, <span class="va">rel_risk</span>, <span class="va">extinct</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">distinct</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">rel_risk</span>, y <span class="op">=</span> <span class="va">big50</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">prop_pep</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">rel_risk</span>, y <span class="op">=</span> <span class="va">extinct</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">prop_pep</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">scale_y_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_y_continuous</span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">scale_color_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Reds"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span></span>
-<span>    x <span class="op">=</span> <span class="st">"Relative risk of HRCs becoming a case (PEP vs. no PEP)"</span>, y <span class="op">=</span> <span class="st">"Proportion of outbreaks with at least 50 cases"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Relative risk of HRCs becoming a case (PEP vs. no PEP)"</span>, y <span class="op">=</span> <span class="st">"Proportion of outbreaks that went extinct"</span>,</span>
 <span>    col <span class="op">=</span> <span class="st">"Probability of receiving PEP"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -157,11 +159,11 @@ scenario, and summarise the results:</p>
 <p><img src="example-application_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 </div>
 <div class="section level3">
-<h3 id="effect-of-pep-on-r0-in-large-outbreaks">Effect of PEP on R0 in large outbreaks<a class="anchor" aria-label="anchor" href="#effect-of-pep-on-r0-in-large-outbreaks"></a>
+<h3 id="effect-of-pep-on-r0-in-ongoing-outbreaks">Effect of PEP on R0 in ongoing outbreaks<a class="anchor" aria-label="anchor" href="#effect-of-pep-on-r0-in-ongoing-outbreaks"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_summary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">res_summary</span><span class="op">$</span><span class="va">outbreak_size</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">)</span>,<span class="op">]</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">prop_pep</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<code class="sourceCode R"><span><span class="va">res_summary</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">max_gen</span> <span class="op">==</span> <span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">scenario</span>, <span class="va">n_initialcases</span>, <span class="va">prop_pep</span>, <span class="va">rel_risk</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">summarise</span><span class="op">(</span></span>
 <span>    r0_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">r0</span><span class="op">)</span>,</span>
@@ -187,7 +189,6 @@ scenario, and summarise the results:</p>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_summary</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">prop_pep</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">scenario</span>, <span class="va">n_initialcases</span>, <span class="va">prop_pep</span>, <span class="va">rel_risk</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">summarise</span><span class="op">(</span></span>
 <span>    npep_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">n_pep</span><span class="op">)</span>,</span>

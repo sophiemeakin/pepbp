@@ -62,39 +62,41 @@ res <- parameter_sweep(
 
 res_summary <- summarise_results(res) %>%
   group_by(scenario) %>%
-  mutate(big50 = sum(outbreak_size > 50)/n()) %>%
+  mutate(
+    big50 = sum(outbreak_size > 50)/n(),
+    extinct = sum(max_gen < 5)/n()
+  ) %>%
   right_join(scenario_grid, by = "scenario") %>%
   ungroup()
 ```
 
 ## Results
 
-### Effect of PEP on preventing large outbreaks
+### Effect of PEP on extinction
 
 ```{r}
 res_summary %>%
-  filter(prop_pep > 0) %>%
-  select(scenario, prop_pep, rel_risk, big50) %>%
+  select(scenario, prop_pep, rel_risk, extinct) %>%
   distinct() %>%
-  ggplot(aes(x = rel_risk, y = big50, col = as.factor(prop_pep))) +
+  ggplot(aes(x = rel_risk, y = extinct, col = as.factor(prop_pep))) +
   geom_point(size = 3) +
   geom_line() +
   scale_x_continuous(breaks = seq(0, 1, 0.2)) +
-  scale_y_continuous(breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.2)) +
   scale_color_brewer(palette = "Reds") +
   labs(
-    x = "Relative risk of HRCs becoming a case (PEP vs. no PEP)", y = "Proportion of outbreaks with at least 50 cases",
+    x = "Relative risk of HRCs becoming a case (PEP vs. no PEP)", y = "Proportion of outbreaks that went extinct",
     col = "Probability of receiving PEP"
   ) +
   theme_bw() +
   theme(text = element_text(size = 16), legend.position = "top")
 ```
 
-### Effect of PEP on R0 in large outbreaks
+### Effect of PEP on R0 in ongoing outbreaks
 
 ```{r}
-res_summary[which(res_summary$outbreak_size > 50),] %>%
-  filter(prop_pep > 0) %>%
+res_summary %>%
+  filter(max_gen == 5) %>%
   group_by(scenario, n_initialcases, prop_pep, rel_risk) %>%
   summarise(
     r0_mean = mean(r0),
@@ -119,7 +121,6 @@ res_summary[which(res_summary$outbreak_size > 50),] %>%
 
 ```{r}
 res_summary %>%
-  filter(prop_pep > 0) %>%
   group_by(scenario, n_initialcases, prop_pep, rel_risk) %>%
   summarise(
     npep_mean = mean(n_pep),
